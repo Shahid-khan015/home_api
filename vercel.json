@@ -11,12 +11,5 @@
         "src": "/(.*)",
         "dest": "app.py"
       }
-    ],
-    "env":
-    {
-
-        "CLOUDINARY_CLOUD_NAME" : "dcysfg3hs",
-        "CLOUDINARY_API_KEY" : "697854878477966",
-        "CLOUDINARY_API_SECRET" : "MTxCpMxyUx5i6ZlxEqS-MEaZuQ0"
-    }
+    ]
   }
