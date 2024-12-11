@@ -1,0 +1,67 @@
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from flask import Flask , jsonify
+
+app = Flask(__name__)
+
+application = app
+
+cloud_name='dcysfg3hs'
+
+cloudinary.config(
+    cloud_name=cloud_name,
+    api_key='697854878477966',
+    api_secret='MTxCpMxyUx5i6ZlxEqS-MEaZuQ0'
+)
+
+@app.route('/<name>')
+def home(name):
+
+
+
+    def list_folders(folder_name):
+        try:
+        
+            result = cloudinary.api.subfolders(folder_name)
+            return result['folders']
+        except cloudinary.exceptions.Error as e:
+            print(f"An error occurred while fetching folders: {str(e)}")
+            return []
+
+    def get_videos_from_folder(folder_name):
+        try:
+            resources = cloudinary.api.resources(type='upload', prefix=folder_name, resource_type='video')
+            return resources['resources']
+
+        except cloudinary.exceptions.Error as e:    
+            print(f"An error occurred while fetching videos: {str(e)}")
+            return []
+
+
+    def get_optimized_video_url(video_public_id):
+        url = cloudinary.CloudinaryImage(video_public_id).build_url(resource_type='video', quality='auto', fetch_format='auto')
+        return url
+
+    folders = list_folders('વ્યંજન')
+
+
+    video_url = {}
+    
+    for folder in folders:
+        folder_name = folder['name']
+        if folder_name == name:
+            videos = get_videos_from_folder(folder_name)
+            if videos:
+                for video in videos:
+                    video_url[folder_name] = get_optimized_video_url(video['secure_url'])
+    
+            else:
+                print(f"No videos found in folder '{folder_name}'.")
+
+    return jsonify({'consonant' : video_url , "count" : len(video_url)})
+    
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
