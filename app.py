@@ -1,11 +1,12 @@
-import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from flask import Flask , jsonify
+from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-
+CORS(app)
 application = app
 
 
@@ -18,7 +19,6 @@ cloudinary.config(
     api_key=api_key,
     api_secret=api_secret
 )
-
 @app.route('/<name>')
 def home(name):
 
