@@ -1,3 +1,4 @@
+import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -7,12 +8,15 @@ app = Flask(__name__)
 
 application = app
 
-cloud_name='dcysfg3hs'
+
+cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME')
+api_key = os.getenv('CLOUDINARY_API_KEY')
+api_secret = os.getenv('CLOUDINARY_API_SECRET')
 
 cloudinary.config(
     cloud_name=cloud_name,
-    api_key='697854878477966',
-    api_secret='MTxCpMxyUx5i6ZlxEqS-MEaZuQ0'
+    api_key=api_key,
+    api_secret=api_secret
 )
 
 @app.route('/<name>')
